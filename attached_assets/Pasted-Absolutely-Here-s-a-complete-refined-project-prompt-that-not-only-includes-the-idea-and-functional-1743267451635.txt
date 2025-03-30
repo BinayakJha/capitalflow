@@ -1,0 +1,103 @@
+Absolutely! Here's a complete, refined project prompt that not only includes the idea and functionality but also outlines a sleek UI/UX vision and technical architecture, including Firebase authentication. Perfect for showcasing to hackathons, mentors, or even early investors:
+
+💼 CapitalFlow
+
+Your AI-powered financial assistant for small businesses
+
+🚀 Prompt:
+
+CapitalFlow is a sleek, intelligent platform that helps small business owners understand, organize, and present their financial data — without the jargon, spreadsheets, or stress.
+
+By integrating Capital One’s Nessie API with Gemini and Claude, CapitalFlow turns raw transaction data into actionable insights and professional-grade financial documents — all through a beautiful, intuitive interface.
+
+🧠 Key Features
+
+💬 Conversational Finance
+
+Natural language interface powered by Gemini
+
+Ask:
+
+“How much did I earn this month?”“What were my top 3 expenses last quarter?”“Is my business ready to apply for a loan?”
+
+📊 Instant Financial Statements
+
+Auto-generate Income Statements and Cash Flow Statements
+
+Based on real bank data from the Nessie API
+
+Can be exported or shared as PDFs for loan prequalification, investor review, or accounting drafts
+
+🛡️ Pre-Audit Ready
+
+A guided process that prepares clean draft documents
+
+Saves time, builds confidence, and reduces reliance on costly audits
+
+🔐 Seamless Firebase Authentication
+
+Secure email/password or OAuth login
+
+Personalized dashboard for every user
+
+🎨 UI/UX Design Vision
+
+CapitalFlow is designed to feel effortless, elegant, and empowering.Think: Clean dashboard + conversational AI + pro-grade docs.
+
+🌟 Visual Style:
+
+Theme: Light mode with muted grays, soft shadows, and vibrant accent colors for CTA buttons
+
+Typography: Modern, minimalist sans-serif (e.g., Inter or Poppins)
+
+Layout: Grid-based dashboard with cards, charts, and collapsible chat UI
+
+🧩 Key Screens:
+
+Login / Signup (Firebase) – Sleek onboarding with branding
+
+Home Dashboard –➤ Revenue vs. Expenses widget➤ Quick prompts: “Generate income statement” / “Summarize this month”➤ Recent insights by Gemini/Claude
+
+Chat Panel – Side drawer chat with Gemini/Claude for natural conversation
+
+Financial Docs Generator – Form + AI summary → Downloadable PDF
+
+Settings & Profile – Business info, download history, auth settings
+
+🛠️ Tech Stack
+
+Component
+
+Technology
+
+Frontend
+
+React.js + TailwindCSS
+
+Backend/API Handling
+
+Node.js (optional) / Firebase
+
+AI Layer
+
+Gemini 1.5 Pro API + Claude 3 Sonnet
+
+Database
+
+Firestore / Realtime DB
+
+Authentication
+
+Firebase Auth
+
+Data Source
+
+Capital One Nessie API
+
+PDF Generation
+
+React-PDF or Puppeteer (server-side)
+
+💡 Why It Matters
+
+90% of small businesses fail due to poor financial visibility.CapitalFlow democratizes access to finance by giving every entrepreneur the tools to speak the language of money — in plain English.

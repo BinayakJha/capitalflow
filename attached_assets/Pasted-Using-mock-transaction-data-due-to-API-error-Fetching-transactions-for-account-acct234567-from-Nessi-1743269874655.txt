@@ -1,0 +1,317 @@
+Using mock transaction data due to API error
+Fetching transactions for account acct234567 from Nessie API
+Error fetching transactions for account acct234567: Request failed with status code 404
+API Response Status: 404
+API Response Data: <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Capital One Hackathon API</title>
+
+        <!-- Meta Tag [Needed for responsiveness] -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Swagger UI stylesheets -->
+        <link href='css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
+        <link href='css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
+        <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+        <link href='css/reset.css' media='print' rel='stylesheet' type='text/css'/>
+        <link href='css/print.css' media='print' rel='stylesheet' type='text/css'/>
+
+        <link rel="stylesheet" href="/css/bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="/css/code-prettify/prettify.css">
+        <link rel="stylesheet" href="/fonts/Webfonts/proximanova_regular_macroman/stylesheet.css">
+        <link rel="stylesheet" href="/fonts/Webfonts/proximanova_bold_macroman/stylesheet.css">
+        <link rel="stylesheet" href="/fonts/Webfonts/proximanova_light_macroman/stylesheet.css">
+        <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+        <link rel="manifest" href="/favicon/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script src="/css/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/css/code-prettify/prettify.js"></script>
+
+        <!-- Main stylesheet [needs to load after bootstrap] -->
+        <link rel="stylesheet" href="/css/style.css">
+
+        <!-- Swagger UI JS -->
+        <script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+        <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
+        <script src='lib/jquery.wiggle.min.js' type='text/javascript'></script>
+        <script src='lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+        <script src='lib/handlebars-2.0.0.js' type='text/javascript'></script>
+        <script src='lib/underscore-min.js' type='text/javascript'></script>
+        <script src='lib/backbone-min.js' type='text/javascript'></script>
+        <script src='swagger-ui.js' type='text/javascript'></script>
+        <script src='lib/highlight.7.3.pack.js' type='text/javascript'></script>
+        <script src='lib/marked.js' type='text/javascript'></script>
+        <script src='lib/swagger-oauth.js' type='text/javascript'></script>
+        
+
+        <!-- ReCAPTCHA -->
+        <script src='https://www.google.com/recaptcha/api.js?render=6Ldz6oYUAAAAAJjaq6ff5TSGpdcYc09hQYZqAasb'></script>
+
+        <script src="/js/ZeroClipboard.js"></script>
+        <script src="/js/index.js"></script>
+    </head>
+
+    <header>
+    <nav class="navbar navbar-mod">
+        <div class="container-fluid">
+            <!-- USER HAS SIGNED IN -->
+            
+
+            <div class="navbar-header">
+                <!-- MOBILE MENU -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nessie-nav" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <p>Menu</p>
+                </button>
+
+                <!-- CAPITAL ONE LOGO -->
+                <a class="navbar-brand" href="https://developer.capitalone.com/"><img src="/img/capital-one-logo.png" alt="Capital One Logo" class="logo header-logo"></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="nessie-nav">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Tutorial</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Documentation <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/documentation?url=/enterprise/api-docs">Enterprise</a></li>
+                            <li><a href="/documentation">Customer</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/wrappers">SDKs</a></li>
+
+                    <!-- USER HAS NOT SIGNED IN -->
+                    
+                    <li><a href="/auth/github">Sign in with GitHub</a></li>
+                    
+
+                </ul>
+
+            </div><!-- END navbar-collapse -->
+        </div><!-- END container-fluid -->
+    </nav>
+</header>
+
+    <body>
+
+        <div class="fixed-background">
+  <!--<img src="/img/404_Nessie.jpg" height="100%" width="100%">-->
+  <img src="/img/nessie-logo-404.png" height="100%" width="100%">
+</div>
+
+<!-- <h1>Not Found</h1>
+<h2></h2>
+<pre></pre> -->
+
+    </body>
+    <footer>
+    <div class="container">
+
+        <!-- FIRST ROW -->
+        <div class="row">
+            <!-- GENERAL INFO LINKS -->
+            <ul id="info-links" class="footer-nav pull-left" role="navigation">
+                <li><a href="https://campus.capitalone.com/"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>Careers</a></li>
+                <li><a href="/feedback"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>Contact Us</a></li>
+                <li><a href="/feedback"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>Feedback</a></li>
+                <li><a href="https://www.capitalone.com/legal/terms-conditions/?Log=1&EventType=Link&ComponentType=T&LOB=MTS::L0RT6ME8Z&SubLob=&PageName=Home%20Page%20Dynamic&PortletLocation=5&ComponentName=footer&ComponentStrategy=&ContentElement=31%3BTerms+%26+Conditions&TargetLob=MTS%3A%3ALCTMJBE8Z&TargetPageName=Terms+and+Conditions&linkid=&email_delivery_id=&referer=https://www.capitalone.com/homepage-dynamic&external_id=&mediacode="><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>Terms & Conditions</a></li>
+            </ul>
+            <!-- SOCIAL MEDIA LINKS -->
+            <ul id="social-media-link" class="pull-right">
+                <li><a href="https://github.com/nessieisreal"><img src="/img/github.png" id="github-logo" alt="Link to Nessie Github"></a></li>
+                <li><a href="https://twitter.com/hacknessie"><img src="/img/twitter.png" id="twitter-logo" alt="Link to Nessie Twitter"></a></li>
+            </ul>
+        </div>
+
+        <!-- SECOND ROW -->
+        <div class="row">
+            <div id="logos">
+                <img id="nessie-footer" src="/img/nessie-logo-footer.png">
+                <span class="copyright">©2015 Capital One</span>
+            </div>
+        </div>
+
+    </div>
+</footer>
+</html>
+
+Using mock transaction data due to API error
+Fetching transactions for account acct345678 from Nessie API
+Error fetching transactions for account acct345678: Request failed with status code 404
+API Response Status: 404
+API Response Data: <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Capital One Hackathon API</title>
+
+        <!-- Meta Tag [Needed for responsiveness] -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Swagger UI stylesheets -->
+        <link href='css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
+        <link href='css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
+        <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+        <link href='css/reset.css' media='print' rel='stylesheet' type='text/css'/>
+        <link href='css/print.css' media='print' rel='stylesheet' type='text/css'/>
+
+        <link rel="stylesheet" href="/css/bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="/css/code-prettify/prettify.css">
+        <link rel="stylesheet" href="/fonts/Webfonts/proximanova_regular_macroman/stylesheet.css">
+        <link rel="stylesheet" href="/fonts/Webfonts/proximanova_bold_macroman/stylesheet.css">
+        <link rel="stylesheet" href="/fonts/Webfonts/proximanova_light_macroman/stylesheet.css">
+        <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+        <link rel="manifest" href="/favicon/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script src="/css/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/css/code-prettify/prettify.js"></script>
+
+        <!-- Main stylesheet [needs to load after bootstrap] -->
+        <link rel="stylesheet" href="/css/style.css">
+
+        <!-- Swagger UI JS -->
+        <script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+        <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
+        <script src='lib/jquery.wiggle.min.js' type='text/javascript'></script>
+        <script src='lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+        <script src='lib/handlebars-2.0.0.js' type='text/javascript'></script>
+        <script src='lib/underscore-min.js' type='text/javascript'></script>
+        <script src='lib/backbone-min.js' type='text/javascript'></script>
+        <script src='swagger-ui.js' type='text/javascript'></script>
+        <script src='lib/highlight.7.3.pack.js' type='text/javascript'></script>
+        <script src='lib/marked.js' type='text/javascript'></script>
+        <script src='lib/swagger-oauth.js' type='text/javascript'></script>
+        
+
+        <!-- ReCAPTCHA -->
+        <script src='https://www.google.com/recaptcha/api.js?render=6Ldz6oYUAAAAAJjaq6ff5TSGpdcYc09hQYZqAasb'></script>
+
+        <script src="/js/ZeroClipboard.js"></script>
+        <script src="/js/index.js"></script>
+    </head>
+
+    <header>
+    <nav class="navbar navbar-mod">
+        <div class="container-fluid">
+            <!-- USER HAS SIGNED IN -->
+            
+
+            <div class="navbar-header">
+                <!-- MOBILE MENU -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nessie-nav" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <p>Menu</p>
+                </button>
+
+                <!-- CAPITAL ONE LOGO -->
+                <a class="navbar-brand" href="https://developer.capitalone.com/"><img src="/img/capital-one-logo.png" alt="Capital One Logo" class="logo header-logo"></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="nessie-nav">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Tutorial</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Documentation <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/documentation?url=/enterprise/api-docs">Enterprise</a></li>
+                            <li><a href="/documentation">Customer</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/wrappers">SDKs</a></li>
+
+                    <!-- USER HAS NOT SIGNED IN -->
+                    
+                    <li><a href="/auth/github">Sign in with GitHub</a></li>
+                    
+
+                </ul>
+
+            </div><!-- END navbar-collapse -->
+        </div><!-- END container-fluid -->
+    </nav>
+</header>
+
+    <body>
+
+        <div class="fixed-background">
+  <!--<img src="/img/404_Nessie.jpg" height="100%" width="100%">-->
+  <img src="/img/nessie-logo-404.png" height="100%" width="100%">
+</div>
+
+<!-- <h1>Not Found</h1>
+<h2></h2>
+<pre></pre> -->
+
+    </body>
+    <footer>
+    <div class="container">
+
+        <!-- FIRST ROW -->
+        <div class="row">
+            <!-- GENERAL INFO LINKS -->
+            <ul id="info-links" class="footer-nav pull-left" role="navigation">
+                <li><a href="https://campus.capitalone.com/"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>Careers</a></li>
+                <li><a href="/feedback"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>Contact Us</a></li>
+                <li><a href="/feedback"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>Feedback</a></li>
+                <li><a href="https://www.capitalone.com/legal/terms-conditions/?Log=1&EventType=Link&ComponentType=T&LOB=MTS::L0RT6ME8Z&SubLob=&PageName=Home%20Page%20Dynamic&PortletLocation=5&ComponentName=footer&ComponentStrategy=&ContentElement=31%3BTerms+%26+Conditions&TargetLob=MTS%3A%3ALCTMJBE8Z&TargetPageName=Terms+and+Conditions&linkid=&email_delivery_id=&referer=https://www.capitalone.com/homepage-dynamic&external_id=&mediacode="><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>Terms & Conditions</a></li>
+            </ul>
+            <!-- SOCIAL MEDIA LINKS -->
+            <ul id="social-media-link" class="pull-right">
+                <li><a href="https://github.com/nessieisreal"><img src="/img/github.png" id="github-logo" alt="Link to Nessie Github"></a></li>
+                <li><a href="https://twitter.com/hacknessie"><img src="/img/twitter.png" id="twitter-logo" alt="Link to Nessie Twitter"></a></li>
+            </ul>
+        </div>
+
+        <!-- SECOND ROW -->
+        <div class="row">
+            <div id="logos">
+                <img id="nessie-footer" src="/img/nessie-logo-footer.png">
+                <span class="copyright">©2015 Capital One</span>
+            </div>
+        </div>
+
+    </div>
+</footer>
+</html>
+
+Using mock transaction data due to API error

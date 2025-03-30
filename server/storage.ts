@@ -1,67 +1,81 @@
 import { 
-  users, 
-  workspaces, 
-  transformations, 
-  visualizations,
-  type User, 
-  type InsertUser,
-  type Workspace,
-  type InsertWorkspace,
-  type Transformation,
-  type InsertTransformation,
-  type Visualization,
-  type InsertVisualization
+  User, InsertUser, ChatMessage, InsertChatMessage, 
+  Insight, InsertInsight, Document, InsertDocument,
+  Account, InsertAccount, Transaction, InsertTransaction 
 } from "@shared/schema";
 
-// Storage interface definition
+// Storage interface for all data operations
 export interface IStorage {
-  // User methods
+  // User operations
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
-  getUserByFirebaseUid(firebaseUid: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
+  getUserByFirebaseId(firebaseId: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  updateUser(id: number, userData: Partial<User>): Promise<User | undefined>;
   
-  // Workspace methods
-  getWorkspace(id: number): Promise<Workspace | undefined>;
-  getWorkspacesByUserId(userId: number): Promise<Workspace[]>;
-  createWorkspace(workspace: InsertWorkspace): Promise<Workspace>;
-  updateWorkspace(id: number, workspaceData: Partial<Workspace>): Promise<Workspace | undefined>;
-  deleteWorkspace(id: number): Promise<boolean>;
+  // Account operations
+  getAccount(id: number): Promise<Account | undefined>;
+  getAccountsByUser(userId: number): Promise<Account[]>;
+  createAccount(account: InsertAccount): Promise<Account>;
   
-  // Transformation methods
-  getTransformationsByWorkspaceId(workspaceId: number): Promise<Transformation[]>;
-  createTransformation(transformation: InsertTransformation): Promise<Transformation>;
+  // Transaction operations
+  getTransaction(id: number): Promise<Transaction | undefined>;
+  getTransactionsByAccount(accountId: number): Promise<Transaction[]>;
+  createTransaction(transaction: InsertTransaction): Promise<Transaction>;
   
-  // Visualization methods
-  getVisualizationsByWorkspaceId(workspaceId: number): Promise<Visualization[]>;
-  createVisualization(visualization: InsertVisualization): Promise<Visualization>;
-  updateVisualization(id: number, visualizationData: Partial<Visualization>): Promise<Visualization | undefined>;
-  deleteVisualization(id: number): Promise<boolean>;
+  // Chat operations
+  getChatMessage(id: number): Promise<ChatMessage | undefined>;
+  getChatMessagesByUser(userId: number): Promise<ChatMessage[]>;
+  createChatMessage(message: InsertChatMessage): Promise<ChatMessage>;
+  
+  // Insight operations
+  getInsight(id: number): Promise<Insight | undefined>;
+  getInsightsByUser(userId: number): Promise<Insight[]>;
+  createInsight(insight: InsertInsight): Promise<Insight>;
+  markInsightAsRead(id: number): Promise<void>;
+  
+  // Document operations
+  getDocument(id: number): Promise<Document | undefined>;
+  getDocumentsByUser(userId: number): Promise<Document[]>;
+  createDocument(document: InsertDocument): Promise<Document>;
 }
 
+// In-memory storage implementation
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
-  private workspaces: Map<number, Workspace>;
-  private transformations: Map<number, Transformation>;
-  private visualizations: Map<number, Visualization>;
-  private userId: number;
-  private workspaceId: number;
-  private transformationId: number;
-  private visualizationId: number;
+  private accounts: Map<number, Account>;
+  private transactions: Map<number, Transaction>;
+  private chatMessages: Map<number, ChatMessage>;
+  private insights: Map<number, Insight>;
+  private documents: Map<number, Document>;
+  
+  private currentUserId: number;
+  private currentAccountId: number;
+  private currentTransactionId: number;
+  private currentChatMessageId: number;
+  private currentInsightId: number;
+  private currentDocumentId: number;
 
   constructor() {
     this.users = new Map();
-    this.workspaces = new Map();
-    this.transformations = new Map();
-    this.visualizations = new Map();
-    this.userId = 1;
-    this.workspaceId = 1;
-    this.transformationId = 1;
-    this.visualizationId = 1;
+    this.accounts = new Map();
+    this.transactions = new Map();
+    this.chatMessages = new Map();
+    this.insights = new Map();
+    this.documents = new Map();
+    
+    this.currentUserId = 1;
+    this.currentAccountId = 1;
+    this.currentTransactionId = 1;
+    this.currentChatMessageId = 1;
+    this.currentInsightId = 1;
+    this.currentDocumentId = 1;
+    
+    // Add sample insights for UI development
+    this.seedInsights();
   }
 
-  // User methods
+  // User operations
   async getUser(id: number): Promise<User | undefined> {
     return this.users.get(id);
   }
@@ -71,113 +85,174 @@ export class MemStorage implements IStorage {
       (user) => user.username === username,
     );
   }
-
-  async getUserByFirebaseUid(firebaseUid: string): Promise<User | undefined> {
+  
+  async getUserByEmail(email: string): Promise<User | undefined> {
     return Array.from(this.users.values()).find(
-      (user) => user.firebaseUid === firebaseUid,
+      (user) => user.email === email,
+    );
+  }
+  
+  async getUserByFirebaseId(firebaseId: string): Promise<User | undefined> {
+    return Array.from(this.users.values()).find(
+      (user) => user.firebaseId === firebaseId,
     );
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.userId++;
+    const id = this.currentUserId++;
     const createdAt = new Date();
     const user: User = { ...insertUser, id, createdAt };
     this.users.set(id, user);
     return user;
   }
-
-  async updateUser(id: number, userData: Partial<User>): Promise<User | undefined> {
-    const user = await this.getUser(id);
-    if (!user) return undefined;
-    
-    const updatedUser = { ...user, ...userData };
-    this.users.set(id, updatedUser);
-    return updatedUser;
+  
+  // Account operations
+  async getAccount(id: number): Promise<Account | undefined> {
+    return this.accounts.get(id);
   }
-
-  // Workspace methods
-  async getWorkspace(id: number): Promise<Workspace | undefined> {
-    return this.workspaces.get(id);
-  }
-
-  async getWorkspacesByUserId(userId: number): Promise<Workspace[]> {
-    return Array.from(this.workspaces.values()).filter(
-      (workspace) => workspace.userId === userId,
+  
+  async getAccountsByUser(userId: number): Promise<Account[]> {
+    return Array.from(this.accounts.values()).filter(
+      (account) => account.userId === userId,
     );
   }
-
-  async createWorkspace(insertWorkspace: InsertWorkspace): Promise<Workspace> {
-    const id = this.workspaceId++;
+  
+  async createAccount(account: InsertAccount): Promise<Account> {
+    const id = this.currentAccountId++;
+    const newAccount: Account = { ...account, id };
+    this.accounts.set(id, newAccount);
+    return newAccount;
+  }
+  
+  // Transaction operations
+  async getTransaction(id: number): Promise<Transaction | undefined> {
+    return this.transactions.get(id);
+  }
+  
+  async getTransactionsByAccount(accountId: number): Promise<Transaction[]> {
+    return Array.from(this.transactions.values()).filter(
+      (transaction) => transaction.accountId === accountId,
+    );
+  }
+  
+  async createTransaction(transaction: InsertTransaction): Promise<Transaction> {
+    const id = this.currentTransactionId++;
+    const newTransaction: Transaction = { ...transaction, id };
+    this.transactions.set(id, newTransaction);
+    return newTransaction;
+  }
+  
+  // Chat operations
+  async getChatMessage(id: number): Promise<ChatMessage | undefined> {
+    return this.chatMessages.get(id);
+  }
+  
+  async getChatMessagesByUser(userId: number): Promise<ChatMessage[]> {
+    return Array.from(this.chatMessages.values())
+      .filter((message) => message.userId === userId)
+      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+  }
+  
+  async createChatMessage(message: InsertChatMessage): Promise<ChatMessage> {
+    const id = this.currentChatMessageId++;
     const createdAt = new Date();
-    const updatedAt = new Date();
-    const workspace: Workspace = { ...insertWorkspace, id, createdAt, updatedAt };
-    this.workspaces.set(id, workspace);
-    return workspace;
+    const newMessage: ChatMessage = { ...message, id, createdAt };
+    this.chatMessages.set(id, newMessage);
+    return newMessage;
   }
-
-  async updateWorkspace(id: number, workspaceData: Partial<Workspace>): Promise<Workspace | undefined> {
-    const workspace = await this.getWorkspace(id);
-    if (!workspace) return undefined;
-    
-    const updatedWorkspace = { 
-      ...workspace, 
-      ...workspaceData,
-      updatedAt: new Date()
-    };
-    this.workspaces.set(id, updatedWorkspace);
-    return updatedWorkspace;
+  
+  // Insight operations
+  async getInsight(id: number): Promise<Insight | undefined> {
+    return this.insights.get(id);
   }
-
-  async deleteWorkspace(id: number): Promise<boolean> {
-    return this.workspaces.delete(id);
+  
+  async getInsightsByUser(userId: number): Promise<Insight[]> {
+    return Array.from(this.insights.values())
+      .filter((insight) => insight.userId === userId)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
-
-  // Transformation methods
-  async getTransformationsByWorkspaceId(workspaceId: number): Promise<Transformation[]> {
-    return Array.from(this.transformations.values()).filter(
-      (transformation) => transformation.workspaceId === workspaceId,
-    );
-  }
-
-  async createTransformation(insertTransformation: InsertTransformation): Promise<Transformation> {
-    const id = this.transformationId++;
-    const timestamp = new Date();
-    const transformation: Transformation = { ...insertTransformation, id, timestamp };
-    this.transformations.set(id, transformation);
-    return transformation;
-  }
-
-  // Visualization methods
-  async getVisualizationsByWorkspaceId(workspaceId: number): Promise<Visualization[]> {
-    return Array.from(this.visualizations.values()).filter(
-      (visualization) => visualization.workspaceId === workspaceId,
-    );
-  }
-
-  async createVisualization(insertVisualization: InsertVisualization): Promise<Visualization> {
-    const id = this.visualizationId++;
+  
+  async createInsight(insight: InsertInsight): Promise<Insight> {
+    const id = this.currentInsightId++;
     const createdAt = new Date();
-    const visualization: Visualization = { ...insertVisualization, id, createdAt };
-    this.visualizations.set(id, visualization);
-    return visualization;
+    const isRead = false;
+    const newInsight: Insight = { ...insight, id, createdAt, isRead };
+    this.insights.set(id, newInsight);
+    return newInsight;
   }
-
-  async updateVisualization(id: number, visualizationData: Partial<Visualization>): Promise<Visualization | undefined> {
-    const visualization = await this.getVisualization(id);
-    if (!visualization) return undefined;
+  
+  async markInsightAsRead(id: number): Promise<void> {
+    const insight = this.insights.get(id);
+    if (insight) {
+      insight.isRead = true;
+      this.insights.set(id, insight);
+    }
+  }
+  
+  // Document operations
+  async getDocument(id: number): Promise<Document | undefined> {
+    return this.documents.get(id);
+  }
+  
+  async getDocumentsByUser(userId: number): Promise<Document[]> {
+    return Array.from(this.documents.values())
+      .filter((document) => document.userId === userId)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+  
+  async createDocument(document: InsertDocument): Promise<Document> {
+    const id = this.currentDocumentId++;
+    const createdAt = new Date();
+    const newDocument: Document = { ...document, id, createdAt };
+    this.documents.set(id, newDocument);
+    return newDocument;
+  }
+  
+  // Seed data for development
+  private seedInsights() {
+    const sampleInsights = [
+      {
+        userId: 1,
+        content: "Your Q3 revenue is on track to exceed Q2 by 12% if current growth continues",
+        category: "Revenue Analysis",
+        isRead: false,
+        createdAt: new Date(Date.now() - 3 * 60 * 60 * 1000) // 3 hours ago
+      },
+      {
+        userId: 1,
+        content: "You've reduced operational expenses by 7.5% compared to last quarter",
+        category: "Cost Optimization",
+        isRead: true,
+        createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000) // 1 day ago
+      },
+      {
+        userId: 1,
+        content: "Three invoices totaling $5,429 are overdue by more than 30 days",
+        category: "Cash Flow Alert",
+        isRead: false,
+        createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000) // 2 days ago
+      },
+      {
+        userId: 1,
+        content: "Consider setting aside funds for Q4 estimated tax payments due January 15",
+        category: "Tax Planning",
+        isRead: true,
+        createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000) // 3 days ago
+      },
+      {
+        userId: 1,
+        content: "Based on your cash reserves, you could increase your investment in equipment by 15%",
+        category: "Investment",
+        isRead: false,
+        createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000) // 4 days ago
+      }
+    ];
     
-    const updatedVisualization = { ...visualization, ...visualizationData };
-    this.visualizations.set(id, updatedVisualization);
-    return updatedVisualization;
-  }
-
-  async deleteVisualization(id: number): Promise<boolean> {
-    return this.visualizations.delete(id);
-  }
-
-  // Helper method
-  private async getVisualization(id: number): Promise<Visualization | undefined> {
-    return this.visualizations.get(id);
+    for (const insight of sampleInsights) {
+      const id = this.currentInsightId++;
+      const newInsight: Insight = { ...insight, id };
+      this.insights.set(id, newInsight);
+    }
   }
 }
 

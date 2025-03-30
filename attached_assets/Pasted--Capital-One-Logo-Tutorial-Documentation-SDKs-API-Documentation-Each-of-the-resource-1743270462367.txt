@@ -1,0 +1,144 @@
+
+
+Capital One Logo
+
+    Tutorial
+    Documentation
+    SDKs
+
+API Documentation
+
+Each of the resources below has multiple endpoints. You can click on an endpoint to learn more about it.
+
+To sample an endpoint, enter your API key into the text box below, then fill out the path and query parameters in the text boxes (if necessary), and finally click the Try It Out button for that endpoint.
+
+    Account
+            get /accounts
+                Get all accounts
+            get /accounts/{id}
+                Get account by id
+            get /customers/{id}/accounts
+                Get accounts by customer id
+            post /customers/{id}/accounts
+                Create an account
+            put /accounts/{id}
+                Update a specific existing account
+            delete /accounts/{id}
+                Delete a specific existing account
+    ATM
+            get /atms
+                Get all ATMs
+            get /atms/{id}
+                Get ATM by id
+    Bill
+            get /accounts/{id}/bills
+                Get all bills for a specific account
+            get /bills/{billId}
+                Get bill by id
+            get /customers/{id}/bills
+                Get bills by customer id
+            post /accounts/{id}/bills
+                Create a bill
+            put /bills/{billId}
+                Update a specific existing bill
+            delete /bills/{billId}
+                Delete a specific existing bill
+    Branch
+            get /branches
+                Get all branches
+            get /branches/{id}
+                Get branch by id
+    Customer
+            get /accounts/{id}/customer
+                Get customer that owns the specified account
+            get /customers
+                Get all customers
+            get /customers/{id}
+                Get customer by id
+            post /customers
+                Create a customer
+            put /customers/{id}
+                Update a specific existing customer
+    Data
+            delete /data
+                Delete data associated with your API key.
+    Deposit
+            get /accounts/{id}/deposits
+                Get all deposits
+            get /deposits/{id}
+                Get deposit by id
+            post /accounts/{id}/deposits
+                Create a deposit
+            put /deposits/{id}
+                Update a specific existing deposit
+            delete /deposits/{id}
+                Delete a specific existing deposit
+    Loan
+            get /accounts/{id}/loans
+                Get all loans
+            get /loans/{id}
+                Get loan by id
+            post /accounts/{id}/loans
+                Create a loan
+            put /loans/{id}
+                Update a specific existing loan
+            delete /loans/{id}
+                Delete a specific existing loan
+    Merchant
+            get /merchants
+                Get all merchants
+            get /merchants/{id}
+                Get merchant by id
+            post /merchants
+                Create a merchant
+            put /merchants/{id}
+                Update a specific existing merchant
+    Purchase
+            get /accounts/{id}/purchases
+                Get all purchases
+            get /merchants/{id}/accounts/{accountId}/purchases
+                Get all purchases by account and merchant
+            get /merchants/{id}/purchases
+                Get all purchases by merchant
+            get /purchases/{id}
+                Get purchase by id
+            post /accounts/{id}/purchases
+                Create a purchase
+            put /purchases/{id}
+                Update a specific existing purchase
+            delete /purchases/{id}
+                Delete a specific existing purchase
+    Transfer
+            get /accounts/{id}/transfers
+                Get all transfers
+            get /transfers/{transferId}
+                Get transfer by id
+            post /accounts/{id}/transfers
+                Create a transfer
+            put /transfers/{transferId}
+                Update a specific existing transfer
+            delete /transfers/{transferId}
+                Delete a specific existing transfer
+    Withdrawal
+            get /accounts/{id}/withdrawals
+                Get all withdrawals
+            get /withdrawals/{id}
+                Get withdrawal by id
+            post /accounts/{id}/withdrawals
+                Create a withdrawal
+            put /withdrawals/{id}
+                Update a specific existing withdrawal
+            delete /withdrawals/{id}
+                Delete a specific existing withdrawal
+
+[ base url: / , api version: 2.0.0 ]
+
+    Careers
+    Contact Us
+    Feedback
+    Terms & Conditions
+
+    Link to Nessie Github
+    Link to Nessie Twitter
+
+©2015 Capital One

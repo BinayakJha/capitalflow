@@ -1,44 +1,89 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithRedirect, GoogleAuthProvider, getRedirectResult, signOut } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getAuth, signInWithRedirect, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, OAuthProvider } from "firebase/auth";
 
+// Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAVIonSS6TkpVonMPQ6So1p2lXe5bSbPt8",
-  authDomain: "exceldna.firebaseapp.com",
-  projectId: "exceldna",
-  storageBucket: "exceldna.firebasestorage.app",
-  appId: "1:1035151273006:web:6a7f562e50482769fc43bf",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: `${import.meta.env.VITE_FIREBASE_PROJECT_ID}.firebaseapp.com`,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: `${import.meta.env.VITE_FIREBASE_PROJECT_ID}.appspot.com`,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
+// Check if Firebase configuration is valid
+const isFirebaseConfigValid = () => {
+  return firebaseConfig.apiKey && 
+         firebaseConfig.projectId && 
+         firebaseConfig.appId;
+};
+
+// Log warning if Firebase is not properly configured
+if (!isFirebaseConfigValid()) {
+  console.warn('Firebase configuration is incomplete. Authentication will not work properly.');
+  console.warn('Please make sure you have added the following environment variables:');
+  console.warn('- VITE_FIREBASE_API_KEY');
+  console.warn('- VITE_FIREBASE_PROJECT_ID');
+  console.warn('- VITE_FIREBASE_APP_ID');
+}
+
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const provider = new GoogleAuthProvider();
+const auth = getAuth(app);
 
-export const signInWithGoogle = () => {
-  signInWithRedirect(auth, provider);
-};
+// Google Auth Provider
+const googleProvider = new GoogleAuthProvider();
 
-export const handleRedirectResult = async () => {
+// Microsoft Auth Provider
+const microsoftProvider = new OAuthProvider('microsoft.com');
+
+// Sign in with email and password
+export const signInWithEmail = async (email: string, password: string) => {
   try {
-    const result = await getRedirectResult(auth);
-    if (result) {
-      // User is signed in
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential?.accessToken;
-      const user = result.user;
-      console.log("User signed in:", user.displayName);
-    }
-  } catch (error: any) {
-    console.error("Authentication error:", error.message);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return { user: userCredential.user, error: null };
+  } catch (error) {
+    return { user: null, error: error as Error };
   }
 };
 
+// Sign up with email and password
+export const signUpWithEmail = async (email: string, password: string) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    return { user: userCredential.user, error: null };
+  } catch (error) {
+    return { user: null, error: error as Error };
+  }
+};
+
+// Sign in with Google
+export const signInWithGoogle = async () => {
+  try {
+    await signInWithRedirect(auth, googleProvider);
+    return { error: null };
+  } catch (error) {
+    return { error: error as Error };
+  }
+};
+
+// Sign in with Microsoft
+export const signInWithMicrosoft = async () => {
+  try {
+    await signInWithRedirect(auth, microsoftProvider);
+    return { error: null };
+  } catch (error) {
+    return { error: error as Error };
+  }
+};
+
+// Sign out
 export const signOutUser = async () => {
   try {
     await signOut(auth);
-    console.log("User signed out successfully");
-  } catch (error: any) {
-    console.error("Error signing out:", error.message);
+    return { error: null };
+  } catch (error) {
+    return { error: error as Error };
   }
 };
+
+export { auth };
