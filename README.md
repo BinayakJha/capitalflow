@@ -1,24 +1,41 @@
-# CapitalFlow 💸
+# 💸 CapitalFlow – *Where Small Business Meets Big Clarity*
 
-**CapitalFlow** is an AI-powered financial management platform built for small business owners. The app helps users analyze their financial health, generate pre-approval documents, and improve their chances of getting business loans with personalized insights and smart automation.
+**CapitalFlow** is an AI-powered financial management platform designed to empower small business owners with the tools they need to understand, improve, and present their finances with confidence.
 
-## 🔍 Overview
+In a world where **70% of small business loan applications** are rejected due to incomplete or unclear financials, CapitalFlow steps in as a smart financial co-pilot — helping users not only organize their data, but leverage it to access capital.
 
-In today's complex financial landscape, many small business owners struggle to prepare documents for loan applications and understand what lenders are looking for. CapitalFlow bridges that gap using cutting-edge AI to:
+---
 
-- Provide loan readiness assessments  
-- Generate financial documents (Income Statement, Cash Flow)  
-- Offer personalized suggestions to improve financial standing  
-- Track real-time account and transaction data  
+## 🔍 Why CapitalFlow?
 
-## 🚀 Features
+> 💼 **33.2 million** small businesses operate in the U.S.  
+> 📉 **82%** of business failures are due to poor cash flow management  
+> 📊 **42%** of owners lack basic financial literacy  
+> *(Sources: SBA, SCORE, QuickBooks)*
 
-- ✨ **AI-powered Chat** — Get insights and suggestions tailored to your business  
-- 📄 **PDF Document Generator** — Instantly create income & cash flow statements  
-- 📊 **Loan Readiness Scoring Engine** — Simulates pre-approval chances  
-- 🔗 **Capital One Nessie API Integration** — Real-time transaction tracking  
-- 🔐 **Google Sign-In with Firebase** — Seamless and secure authentication  
-- 📈 **Dynamic Dashboards** — Visual breakdowns of your finances  
+Most small business owners aren’t accountants — and they shouldn’t have to be. CapitalFlow uses **natural language AI** and **real-time transaction data** to help users:
+
+- Understand where their money is going  
+- Instantly generate clean financial documents  
+- Simulate loan readiness  
+- Receive personalized, actionable insights
+
+No jargon. No spreadsheets. Just clarity.
+
+---
+
+## 🚀 Core Features
+
+| Feature | Description |
+|--------|-------------|
+| ✨ **AI Chat Assistant** | Ask anything — "What was my profit last quarter?" — and get instant insights |
+| 📄 **PDF Statement Generator** | Auto-generate income and cash flow statements with one click |
+| 📊 **Loan Readiness Engine** | See your pre-approval chances based on real financial data |
+| 🔗 **Banking API Integration** | Pull live data using Capital One’s Nessie API |
+| 🔐 **Google Sign-In (Firebase)** | Fast, secure login to protect your business data |
+| 📈 **Dynamic Financial Dashboard** | Visualize earnings, expenses, and cash flow trends at a glance |
+
+---
 
 ## 🧠 Tech Stack
 
