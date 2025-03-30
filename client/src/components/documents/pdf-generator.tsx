@@ -73,7 +73,7 @@ export function PdfGenerator({ documentId, documentType, documentTitle }: PdfGen
     // Header
     doc.setFontSize(16);
     yPos += 8;
-    doc.text("INCOME STATEMENT", pageWidth / 2, yPos, { align: 'center' });
+    doc.text(data.title || "INCOME STATEMENT", pageWidth / 2, yPos, { align: 'center' });
   
     doc.setFontSize(10);
     yPos += 6;

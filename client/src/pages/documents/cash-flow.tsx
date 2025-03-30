@@ -6,28 +6,34 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { DatePicker } from '@/components/ui/date-picker';
-import { Skeleton } from '@/components/ui/skeleton';
 import { ChatPanel } from '@/components/chat/chat-panel';
 import { useChat } from '@/context/chat-context';
 import { useToast } from '@/hooks/use-toast';
 import { useMutation } from '@tanstack/react-query';
 import { generateCashFlowStatement } from '@/lib/api';
 import { format } from 'date-fns';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export default function CashFlowStatement() {
   const { isChatOpen, toggleChat } = useChat();
   const [_, setLocation] = useLocation();
   const { toast } = useToast();
-  
+
   const [startDate, setStartDate] = useState<Date | undefined>(
     new Date(new Date().setMonth(new Date().getMonth() - 1))
   );
   const [endDate, setEndDate] = useState<Date | undefined>(new Date());
   const [title, setTitle] = useState('Cash Flow Statement');
-  
+
   const generateMutation = useMutation({
     mutationFn: generateCashFlowStatement,
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({
         title: 'Cash flow statement generated',
         description: 'Your document has been created successfully',
@@ -42,7 +48,7 @@ export default function CashFlowStatement() {
       });
     },
   });
-  
+
   const handleGenerate = async () => {
     if (!startDate || !endDate) {
       toast({
@@ -52,7 +58,7 @@ export default function CashFlowStatement() {
       });
       return;
     }
-    
+
     if (startDate > endDate) {
       toast({
         title: 'Invalid date range',
@@ -61,9 +67,10 @@ export default function CashFlowStatement() {
       });
       return;
     }
-    
+
     try {
       await generateMutation.mutateAsync({
+        title,
         startDate: format(startDate, 'yyyy-MM-dd'),
         endDate: format(endDate, 'yyyy-MM-dd'),
       });
@@ -71,11 +78,43 @@ export default function CashFlowStatement() {
       console.error('Error generating cash flow statement:', error);
     }
   };
-  
+
+  const handlePresetRange = (value: string) => {
+    const today = new Date();
+    let start: Date | undefined;
+    let end: Date | undefined;
+
+    switch (value) {
+      case "this_month":
+        start = new Date(today.getFullYear(), today.getMonth(), 1);
+        end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+        break;
+      case "last_month":
+        start = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+        end = new Date(today.getFullYear(), today.getMonth(), 0);
+        break;
+      case "this_quarter":
+        const currentQuarter = Math.floor(today.getMonth() / 3);
+        start = new Date(today.getFullYear(), currentQuarter * 3, 1);
+        end = new Date(today.getFullYear(), currentQuarter * 3 + 3, 0);
+        break;
+      case "last_quarter":
+        const lastQuarter = Math.floor(today.getMonth() / 3) - 1;
+        start = new Date(today.getFullYear(), lastQuarter * 3, 1);
+        end = new Date(today.getFullYear(), lastQuarter * 3 + 3, 0);
+        break;
+      default:
+        return; // Custom – do nothing
+    }
+
+    setStartDate(start);
+    setEndDate(end);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      
+
       <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
         <div className="py-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
@@ -86,7 +125,7 @@ export default function CashFlowStatement() {
               </Button>
             </div>
           </div>
-          
+
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
             <Card>
               <CardHeader>
@@ -95,25 +134,42 @@ export default function CashFlowStatement() {
               <CardContent className="space-y-6">
                 <div className="space-y-2">
                   <Label htmlFor="title">Document Title</Label>
-                  <Input 
+                  <Input
                     id="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Cash Flow Statement"
                   />
                 </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="space-y-2">
+                    <Label>Date Range</Label>
+                    <Select onValueChange={handlePresetRange}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Custom" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="this_month">This Month</SelectItem>
+                        <SelectItem value="last_month">Last Month</SelectItem>
+                        <SelectItem value="this_quarter">This Quarter</SelectItem>
+                        <SelectItem value="last_quarter">Last Quarter</SelectItem>
+                        <SelectItem value="custom">Custom</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
                   <div className="space-y-2">
                     <Label>Start Date</Label>
                     <DatePicker date={startDate} setDate={setStartDate} />
                   </div>
+
                   <div className="space-y-2">
                     <Label>End Date</Label>
                     <DatePicker date={endDate} setDate={setEndDate} />
                   </div>
                 </div>
-                
+
                 <div className="bg-blue-50 p-4 rounded-md">
                   <div className="flex">
                     <div className="flex-shrink-0">
@@ -148,7 +204,7 @@ export default function CashFlowStatement() {
                 </Button>
               </CardFooter>
             </Card>
-            
+
             {/* Preview section */}
             <div className="mt-6">
               <h2 className="text-lg font-medium text-gray-900 mb-4">Document Preview</h2>
@@ -178,7 +234,7 @@ export default function CashFlowStatement() {
           </div>
         </div>
       </main>
-      
+
       <ChatPanel isOpen={isChatOpen} onClose={toggleChat} />
     </div>
   );
