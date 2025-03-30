@@ -36,6 +36,7 @@ export function PdfGenerator({ documentId, documentType, documentTitle }: PdfGen
       
       // Add different content based on document type
       if (documentType === 'income_statement') {
+        console.log('PDF Data:', documentData);
         generateIncomeStatementPDF(doc, documentData);
       } else if (documentType === 'cash_flow') {
         generateCashFlowPDF(doc, documentData);
@@ -72,171 +73,206 @@ export function PdfGenerator({ documentId, documentType, documentTitle }: PdfGen
   };
   
   // Function to generate Income Statement PDF
-  const generateIncomeStatementPDF = (doc: jsPDF, data: any) => {
+  const generateIncomeStatementPDF = (doc: jsPDF, documentData: any) => {
     const pageWidth = doc.internal.pageSize.getWidth();
-    let yPos = 50;
-    
-    // Period information
-    doc.setFontSize(12);
-    doc.text(`Period: ${data.data.periodStart} to ${data.data.periodEnd}`, pageWidth / 2, yPos, { align: 'center' });
-    yPos += 15;
-    
-    // Revenue Section
-    doc.setFontSize(14);
-    doc.text('Revenue', 20, yPos);
-    yPos += 10;
-    
-    doc.setFontSize(10);
-    // Revenue categories
-    if (data.data.revenue.categories && data.data.revenue.categories.length > 0) {
-      data.data.revenue.categories.forEach((category: any) => {
-        doc.text(`${category.category}`, 30, yPos);
-        doc.text(`$${category.amount.toFixed(2)}`, pageWidth - 30, yPos, { align: 'right' });
-        yPos += 6;
-      });
-    }
-    
-    // Total revenue
-    doc.setFontSize(12);
-    yPos += 5;
-    doc.text('Total Revenue:', 30, yPos);
-    doc.text(`$${data.data.revenue.total.toFixed(2)}`, pageWidth - 30, yPos, { align: 'right' });
-    yPos += 15;
-    
-    // Expenses Section
-    doc.setFontSize(14);
-    doc.text('Expenses', 20, yPos);
-    yPos += 10;
-    
-    doc.setFontSize(10);
-    // Expense categories
-    if (data.data.expenses.categories && data.data.expenses.categories.length > 0) {
-      data.data.expenses.categories.forEach((category: any) => {
-        doc.text(`${category.category}`, 30, yPos);
-        doc.text(`$${category.amount.toFixed(2)}`, pageWidth - 30, yPos, { align: 'right' });
-        yPos += 6;
-      });
-    }
-    
-    // Total expenses
-    doc.setFontSize(12);
-    yPos += 5;
-    doc.text('Total Expenses:', 30, yPos);
-    doc.text(`$${data.data.expenses.total.toFixed(2)}`, pageWidth - 30, yPos, { align: 'right' });
-    yPos += 15;
-    
-    // Summary
-    doc.setFontSize(14);
-    doc.text('Summary', 20, yPos);
-    yPos += 10;
-    
-    doc.setFontSize(12);
-    doc.text('Net Profit:', 30, yPos);
-    doc.text(`$${data.data.profit.toFixed(2)}`, pageWidth - 30, yPos, { align: 'right' });
+    const data = documentData.data;
+    let yPos = 30;
+  
+    // Header
+    doc.setFontSize(16);
     yPos += 8;
-    
-    doc.text('Profit Margin:', 30, yPos);
-    doc.text(`${(data.data.profitMargin).toFixed(2)}%`, pageWidth - 30, yPos, { align: 'right' });
+    doc.text("INCOME STATEMENT", pageWidth / 2, yPos, { align: 'center' });
+  
+    doc.setFontSize(10);
+    yPos += 6;
+    doc.setFont("helvetica", "normal");
+    doc.text(`For Period: ${data.periodStart} to ${data.periodEnd}`, pageWidth / 2, yPos, { align: 'center' });
+    yPos += 12;
+  
+    // Helpers
+    const drawLineItem = (label: string, amount?: number, bold = false) => {
+      doc.setFont("helvetica", bold ? "bold" : "normal");
+      doc.setFontSize(11);
+      doc.text(label, 30, yPos);
+      if (amount !== undefined) {
+        doc.text(`$${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}`, pageWidth - 30, yPos, { align: 'right' });
+      }
+      yPos += 8;
+    };
+  
+    const drawUnderline = () => {
+      yPos -= 2;
+      doc.setDrawColor(0);
+      doc.line(30, yPos, pageWidth - 30, yPos);
+      yPos += 4;
+    };
+  
+    const drawSpacing = (lines = 1) => {
+      yPos += 4 * lines;
+    };
+  
+    // --- Revenue Section ---
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("REVENUE", 30, yPos);
+    yPos += 8;
+  
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    if (data.revenue?.categories?.length > 0) {
+      data.revenue.categories.forEach((cat: any) => {
+        drawLineItem(cat.category, cat.amount);
+      });
+    } else {
+      drawLineItem("General Business Revenue", data.revenue?.total);
+    }
+  
+    drawLineItem("Total Revenue", data.revenue?.total || 0, true);
+    drawUnderline();
+    drawSpacing();
+  
+    // --- Expenses Section ---
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("EXPENSES", 30, yPos);
+    yPos += 8;
+  
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    if (data.expenses?.categories?.length > 0) {
+      data.expenses.categories.forEach((cat: any) => {
+        drawLineItem(cat.category, cat.amount);
+      });
+    } else {
+      drawLineItem("General Business Expenses", data.expenses?.total);
+    }
+  
+    drawLineItem("Total Expenses", data.expenses?.total || 0, true);
+    drawUnderline();
+    drawSpacing();
+  
+    // --- Summary Section ---
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("SUMMARY", 30, yPos);
+    yPos += 8;
+  
+    drawLineItem("Net Profit", data.profit, true);
+    drawLineItem("Profit Margin (%)", data.profitMargin, true);
+    drawUnderline();
+    drawUnderline();
+  
+    // Footer
+    doc.setFontSize(8);
+    doc.setTextColor(120);
+    doc.text("Generated by CapitalFlow – AI-Powered Financial Assistant", 30, 285);
   };
+  
+  
   
   // Function to generate Cash Flow PDF
   const generateCashFlowPDF = (doc: jsPDF, data: any) => {
     const pageWidth = doc.internal.pageSize.getWidth();
     let yPos = 50;
-    
-    // Period information
-    doc.setFontSize(12);
-    doc.text(`Period: ${data.data.periodStart} to ${data.data.periodEnd}`, pageWidth / 2, yPos, { align: 'center' });
-    yPos += 15;
-    
-    // Operating Activities
-    doc.setFontSize(14);
-    doc.text('Operating Activities', 20, yPos);
-    yPos += 10;
-    
-    doc.setFontSize(12);
-    doc.text('Net Income:', 30, yPos);
-    doc.text(`$${data.data.operatingActivities.netIncome.toFixed(2)}`, pageWidth - 30, yPos, { align: 'right' });
-    yPos += 8;
-    
-    // Adjustments
-    doc.setFontSize(10);
-    if (data.data.operatingActivities.adjustments && data.data.operatingActivities.adjustments.length > 0) {
-      data.data.operatingActivities.adjustments.forEach((adjustment: any) => {
-        doc.text(`${adjustment.description}`, 40, yPos);
-        doc.text(`$${adjustment.amount.toFixed(2)}`, pageWidth - 30, yPos, { align: 'right' });
-        yPos += 6;
+    const labelX = 30;
+    const valueX = pageWidth - 30;
+  
+    const drawLine = () => {
+      yPos += 2;
+      doc.setDrawColor(160);
+      doc.line(labelX, yPos, valueX, yPos);
+      yPos += 6;
+    };
+  
+    const drawRow = (
+      label: string,
+      value?: number | string,
+      options: { bold?: boolean; italic?: boolean; color?: string } = {}
+    ) => {
+      const fontStyle = options.bold ? 'bold' : options.italic ? 'italic' : 'normal';
+      doc.setFont('helvetica', fontStyle);
+      doc.setFontSize(11);
+  
+      if (options.color === 'blue') doc.setTextColor(0, 0, 255);
+      else doc.setTextColor(0, 0, 0);
+  
+      doc.text(label, labelX, yPos);
+  
+      if (value !== undefined) {
+        const valStr =
+          typeof value === 'number'
+            ? `$${value.toLocaleString(undefined, { minimumFractionDigits: 2 })}`
+            : value;
+        doc.text(valStr, valueX, yPos, { align: 'right' });
+      }
+  
+      yPos += 8;
+    };
+  
+    // === OPERATING ACTIVITIES ===
+    drawRow('Cash Flow From Operations', undefined, { bold: true });
+    drawRow('Net Earnings', data.data.operatingActivities.netIncome);
+  
+    drawRow('Additions to Cash', undefined, { italic: true });
+    data.data.operatingActivities.adjustments
+      .filter((a: any) => a.amount > 0)
+      .forEach((adj: any) => {
+        drawRow(adj.description, adj.amount);
       });
-    }
-    
-    // Net cash from operations
-    doc.setFontSize(12);
-    yPos += 5;
-    doc.text('Net Cash from Operating Activities:', 30, yPos);
-    doc.text(`$${data.data.operatingActivities.netCash.toFixed(2)}`, pageWidth - 30, yPos, { align: 'right' });
-    yPos += 15;
-    
-    // Investing Activities
-    doc.setFontSize(14);
-    doc.text('Investing Activities', 20, yPos);
-    yPos += 10;
-    
-    // Investing items
-    doc.setFontSize(10);
-    if (data.data.investingActivities.items && data.data.investingActivities.items.length > 0) {
-      data.data.investingActivities.items.forEach((item: any) => {
-        doc.text(`${item.description}`, 30, yPos);
-        doc.text(`$${item.amount.toFixed(2)}`, pageWidth - 30, yPos, { align: 'right' });
-        yPos += 6;
+  
+    drawRow('Subtractions From Cash', undefined, { italic: true });
+    data.data.operatingActivities.adjustments
+      .filter((a: any) => a.amount < 0)
+      .forEach((adj: any) => {
+        drawRow(adj.description, `(${Math.abs(adj.amount).toLocaleString()})`, { color: 'blue' });
       });
-    }
-    
-    // Net cash from investing
-    doc.setFontSize(12);
-    yPos += 5;
-    doc.text('Net Cash from Investing Activities:', 30, yPos);
-    doc.text(`$${data.data.investingActivities.netCash.toFixed(2)}`, pageWidth - 30, yPos, { align: 'right' });
-    yPos += 15;
-    
-    // Financing Activities
-    doc.setFontSize(14);
-    doc.text('Financing Activities', 20, yPos);
-    yPos += 10;
-    
-    // Financing items
-    doc.setFontSize(10);
-    if (data.data.financingActivities.items && data.data.financingActivities.items.length > 0) {
-      data.data.financingActivities.items.forEach((item: any) => {
-        doc.text(`${item.description}`, 30, yPos);
-        doc.text(`$${item.amount.toFixed(2)}`, pageWidth - 30, yPos, { align: 'right' });
-        yPos += 6;
-      });
-    }
-    
-    // Net cash from financing
-    doc.setFontSize(12);
-    yPos += 5;
-    doc.text('Net Cash from Financing Activities:', 30, yPos);
-    doc.text(`$${data.data.financingActivities.netCash.toFixed(2)}`, pageWidth - 30, yPos, { align: 'right' });
-    yPos += 15;
-    
-    // Summary
-    doc.setFontSize(14);
-    doc.text('Summary', 20, yPos);
-    yPos += 10;
-    
-    doc.setFontSize(12);
-    doc.text('Net Change in Cash:', 30, yPos);
-    doc.text(`$${data.data.netChange.toFixed(2)}`, pageWidth - 30, yPos, { align: 'right' });
-    yPos += 8;
-    
-    doc.text('Starting Balance:', 30, yPos);
-    doc.text(`$${data.data.startingBalance.toFixed(2)}`, pageWidth - 30, yPos, { align: 'right' });
-    yPos += 8;
-    
-    doc.text('Ending Balance:', 30, yPos);
-    doc.text(`$${data.data.endingBalance.toFixed(2)}`, pageWidth - 30, yPos, { align: 'right' });
+  
+    drawRow('Net Cash From Operations', data.data.operatingActivities.netCash, { bold: true });
+    drawLine();
+  
+    // === INVESTING ACTIVITIES ===
+    drawRow('Cash Flow From Investing', undefined, { bold: true });
+    data.data.investingActivities.items.forEach((item: any) => {
+      const val = item.amount < 0
+        ? `(${Math.abs(item.amount).toLocaleString()})`
+        : item.amount;
+      drawRow(item.description, val, item.amount < 0 ? { color: 'blue' } : {});
+    });
+    drawRow('Net Cash From Investing', data.data.investingActivities.netCash, { bold: true });
+    drawLine();
+  
+    // === FINANCING ACTIVITIES ===
+    drawRow('Cash Flow From Financing', undefined, { bold: true });
+    data.data.financingActivities.items.forEach((item: any) => {
+      drawRow(item.description, item.amount);
+    });
+    drawRow('Net Cash From Financing', data.data.financingActivities.netCash, { bold: true });
+    drawLine();
+  
+    // === SUMMARY ===
+    drawRow('Cash Flow Summary', undefined, { bold: true });
+    drawRow('Net Change in Cash', data.data.netChange);
+    drawRow('Starting Balance', data.data.startingBalance);
+    drawRow('Ending Balance', data.data.endingBalance);
+    drawLine();
+  
+    // === FINAL TOTAL ===
+    drawRow(
+      `Cash Flow for Period Ended`,
+      data.data.endingBalance,
+      { bold: true }
+    );
+  
+    // === FOOTER ===
+    yPos = 285;
+    doc.setFontSize(8);
+    doc.setTextColor(120);
+    doc.setFont("helvetica", "italic");
+    doc.text("This document was generated by CapitalFlow – AI-powered financial intelligence.", 20, yPos);
   };
+  
+  
+  
   
   return (
     <Button 

@@ -25,6 +25,7 @@ export default function IncomeStatement() {
   const [endDate, setEndDate] = useState<Date | undefined>(new Date());
   const [title, setTitle] = useState('Income Statement');
   
+  
   const generateMutation = useMutation({
     mutationFn: generateIncomeStatement,
     onSuccess: (data) => {
