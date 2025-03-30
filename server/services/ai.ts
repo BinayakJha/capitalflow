@@ -24,7 +24,7 @@ const anthropic = new Anthropic({
 });
 
 // API URLs
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent';
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
 // Check if ANTHROPIC_API_KEY is available
 if (!CLAUDE_API_KEY) {
