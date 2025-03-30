@@ -32,7 +32,19 @@ In today's complex financial landscape, many small business owners struggle to p
 
 ## 📦 Directory Structure
 
-capitalflow/ ├── client/ # Frontend (React) ├── server/ # Backend (Express) ├── shared/ # Shared utilities/types ├── attached_assets/ # Assets used in presentation or docs ├── drizzle.config.ts # Drizzle ORM configuration (optional) ├── tailwind.config.ts # Tailwind CSS configuration ├── vite.config.ts # Vite bundler config ├── tsconfig.json # TypeScript configuration └── package.json # Project metadata and dependencies
+```
+capitalflow/
+├── client/                # Frontend (React)
+├── server/                # Backend (Express)
+├── shared/                # Shared utilities/types
+├── attached_assets/       # Assets used in presentation or docs
+├── drizzle.config.ts      # Drizzle ORM configuration (optional)
+├── tailwind.config.ts     # Tailwind CSS configuration
+├── vite.config.ts         # Vite bundler config
+├── tsconfig.json          # TypeScript configuration
+└── package.json           # Project metadata and dependencies
+```
+
 
 
 ## 🛠️ Setup & Installation
