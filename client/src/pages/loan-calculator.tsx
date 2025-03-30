@@ -6,6 +6,9 @@ import { queryClient, apiRequest } from '../lib/queryClient';
 import { useQuery } from '@tanstack/react-query';
 
 // UI Components
+import { Sparkles } from 'lucide-react';
+import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
+import { Header } from '@/components/dashboard/header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -18,6 +21,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Check, AlertCircle, HelpCircle, CheckCircle, XCircle, AlertTriangle, Info } from 'lucide-react';
+
 
 // Form validation schema
 const loanCalculatorSchema = z.object({
@@ -127,8 +131,10 @@ export default function LoanCalculator() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-8">Business Loan Approval Calculator</h1>
-      
+       <Header />
+
+      <h1 className="text-3xl font-bold mb-8 mt-5">Business Loan Approval Calculator</h1>
+
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid grid-cols-2 mb-6">
           <TabsTrigger value="input">Loan Information</TabsTrigger>
@@ -152,7 +158,13 @@ export default function LoanCalculator() {
                       name="loanType"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Loan Type</FormLabel>
+                          <FormLabel>
+                            
+                            Loan Type
+
+                            
+
+                          </FormLabel>
                           <Select 
                             onValueChange={field.onChange} 
                             defaultValue={field.value}

@@ -339,6 +339,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Generate audit documents
+  app.post('/api/documents/audit', async (req, res) => {
+    try {
+      const { startDate, endDate, selectedItems } = req.body;
+      const documents = [];
+      
+      // Get accounts and transactions
+      const accounts = await fetchAccounts();
+      let transactions: NessieTransaction[] = [];
+      
+      for (const account of accounts) {
+        const accountTransactions = await fetchAccountTransactions(account._id);
+        transactions = [...transactions, ...accountTransactions];
+      }
+
+      // Generate selected documents
+      if (selectedItems.incomeStatement) {
+        const incomeStatement = await generateFinancialStatement(transactions, startDate, endDate);
+        documents.push({
+          title: `Income Statement (${startDate} to ${endDate})`,
+          documentType: 'income_statement',
+          content: incomeStatement
+        });
+      }
+
+      if (selectedItems.cashFlow) {
+        const cashFlow = await generateCashFlow(transactions, startDate, endDate);
+        documents.push({
+          title: `Cash Flow Statement (${startDate} to ${endDate})`,
+          documentType: 'cash_flow',
+          content: cashFlow
+        });
+      }
+
+      // Store documents
+      const userId = 1; // In production, get from session
+      for (const doc of documents) {
+        await storage.createDocument({
+          userId,
+          ...doc
+        });
+      }
+      
+      res.json({ success: true, documents });
+    } catch (error) {
+      console.error('Error generating audit documents:', error);
+      res.status(500).json({ 
+        message: (error as Error).message || 'Failed to generate audit documents' 
+      });
+    }
+  });
+
   app.post('/api/documents/cash-flow', async (req, res) => {
     try {
       const { startDate, endDate } = req.body;

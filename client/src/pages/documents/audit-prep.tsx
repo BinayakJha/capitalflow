@@ -17,10 +17,12 @@ export default function AuditPrep() {
   const { toast } = useToast();
   
   const [startDate, setStartDate] = useState<Date | undefined>(
-    new Date(new Date().getFullYear(), 0, 1) // January 1st of current year
+    // new Date(new Date().getFullYear(), 0, 1) // January 1st of current year
+    new Date(2024, 0, 1) // January 1st, 2024
   );
   const [endDate, setEndDate] = useState<Date | undefined>(
-    new Date(new Date().getFullYear(), 11, 31) // December 31st of current year
+    // new Date(new Date().getFullYear(), 11, 31) // December 31st of current year
+    new Date(2025, 4, 30) // May 30th, 2025
   );
   
   const [selectedItems, setSelectedItems] = useState({
@@ -57,15 +59,39 @@ export default function AuditPrep() {
     
     setIsGenerating(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const response = await fetch('/api/documents/audit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+          selectedItems
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate audit documents');
+      }
+
+      const result = await response.json();
+      
       setIsGenerating(false);
       toast({
-        title: 'Audit preparation started',
-        description: 'Your documents are being prepared. This process may take some time.',
+        title: 'Audit documents generated',
+        description: `Successfully generated ${result.documents.length} documents`,
       });
       setLocation('/documents');
-    }, 2000);
+    } catch (error) {
+      setIsGenerating(false);
+      toast({
+        title: 'Error',
+        description: 'Failed to generate audit documents. Please try again.',
+        variant: 'destructive',
+      });
+    }
   };
   
   return (

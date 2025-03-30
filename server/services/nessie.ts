@@ -4,7 +4,7 @@ import { NessieAccount, NessieTransaction, NessieCustomer } from '@shared/types'
 // Capital One Nessie API configuration
 const API_KEY = process.env.NESSIE_API_KEY || 'ca321c1a9bbb97c3811f2bb7f597b9de';
 const BASE_URL = 'http://api.nessieisreal.com/';
-const DEFAULT_CUSTOMER_ID = '67e83a809683f20dd51904ec'; 
+const DEFAULT_CUSTOMER_ID = '67e8c8179683f20dd5193dc3'; 
 /**
  * Nessie API Documentation:
  * - Accounts: /accounts, /accounts/{id}, /customers/{id}/accounts

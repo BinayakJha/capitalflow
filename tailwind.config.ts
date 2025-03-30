@@ -45,11 +45,11 @@ export default {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         chart: {
-          "1": "hsl(var(--chart-1))",
-          "2": "hsl(var(--chart-2))",
-          "3": "hsl(var(--chart-3))",
-          "4": "hsl(var(--chart-4))",
-          "5": "hsl(var(--chart-5))",
+          "1": "hsl(215, 70%, 35%)",  // Primary blue
+          "2": "hsl(150, 60%, 40%)",  // Success green
+          "3": "hsl(280, 50%, 45%)",  // Accent purple
+          "4": "hsl(200, 65%, 50%)",  // Light blue
+          "5": "hsl(340, 55%, 45%)",  // Accent pink
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

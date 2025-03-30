@@ -2,6 +2,9 @@ import axios from 'axios';
 import { NessieTransaction, RevenueExpenseData } from '@shared/types';
 import { Anthropic } from '@anthropic-ai/sdk';
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 // Type definitions for financial data
 interface MonthData {
   date: string;
@@ -473,11 +476,11 @@ export async function generateFinancialStatement(
     
     // Categorize and sum transactions
     const revenue = filteredTransactions
-      .filter(t => t.amount > 0)
+      .filter(t => t.type === 'deposit' || (t.amount > 0 && t.type !== 'purchase'))
       .reduce((sum, t) => sum + t.amount, 0);
       
-    const expenses = filteredTransactions
-      .filter(t => t.amount < 0)
+      const expenses = filteredTransactions
+      .filter(t => t.type === 'purchase' || t.type === 'withdrawal' || (t.amount < 0 && t.type !== 'deposit'))
       .reduce((sum, t) => sum + Math.abs(t.amount), 0);
     
     // Create category breakdowns
