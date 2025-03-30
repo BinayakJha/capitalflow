@@ -24,15 +24,7 @@ export function PdfGenerator({ documentId, documentType, documentTitle }: PdfGen
       // Create a new PDF document
       const doc = new jsPDF();
       const pageWidth = doc.internal.pageSize.getWidth();
-      
-      // Add title
-      doc.setFontSize(18);
-      doc.text(documentTitle, pageWidth / 2, 20, { align: 'center' });
-      
-      // Add metadata
-      doc.setFontSize(10);
-      const currentDate = new Date().toLocaleDateString();
-      doc.text(`Generated on: ${currentDate}`, pageWidth / 2, 30, { align: 'center' });
+    
       
       // Add different content based on document type
       if (documentType === 'income_statement') {
@@ -76,7 +68,7 @@ export function PdfGenerator({ documentId, documentType, documentTitle }: PdfGen
   const generateIncomeStatementPDF = (doc: jsPDF, documentData: any) => {
     const pageWidth = doc.internal.pageSize.getWidth();
     const data = documentData.data;
-    let yPos = 30;
+    let yPos = 10;
   
     // Header
     doc.setFontSize(16);
@@ -173,9 +165,22 @@ export function PdfGenerator({ documentId, documentType, documentTitle }: PdfGen
   // Function to generate Cash Flow PDF
   const generateCashFlowPDF = (doc: jsPDF, data: any) => {
     const pageWidth = doc.internal.pageSize.getWidth();
-    let yPos = 50;
+    let yPos = 10;
     const labelX = 30;
     const valueX = pageWidth - 30;
+
+    // Header
+    doc.setFontSize(16);
+    yPos += 8;
+    doc.text("CASH FLOW STATEMENT", pageWidth / 2, yPos, { align: 'center' });
+  
+    doc.setFontSize(10);
+    yPos += 6;
+    doc.setFont("helvetica", "normal");
+    doc.text(`For Period: ${data.periodStart} to ${data.periodEnd}`, pageWidth / 2, yPos, { align: 'center' });
+    yPos += 12;
+  
+    // Helpers
   
     const drawLine = () => {
       yPos += 2;
